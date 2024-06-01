@@ -17,13 +17,21 @@ def addGame(cfg):
             sleep(1)
         if not os.path.exists(f'configs/games/{gamename}'):
             os.makedirs(f'configs/games/{gamename}')
+
+            # make a file to save information about saved game instances
+            data = [
+                ['ID', 'Name', "Current"]
+            ]
+            with open(f'configs/games/{gamename}/instances.csv', 'w', newline='') as file:
+                writer = csv.writer(file)
+                writer.writerows(data)
             break
+
         else:
             print("\nGame already added!")
             sleep(1)
 
 # config paths
-gamescfg = "configs/games.csv"
 cfg = "configs/config.yaml"
 
 #check for config
@@ -38,28 +46,11 @@ if not os.path.exists(cfg):
     }
 
     with open(cfg, 'w',) as f :
-        yaml.dump(data,f,sort_keys=False) 
+        yaml.dump(data,f,sort_keys=False)
 
-#check for games cfg
-if not os.path.exists(gamescfg):
-    data = [
-    ['Game', 'Path']
-    ]
-
-    with open(gamescfg, 'w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerows(data)
-
-
-#check for games in games cfg and add if doesnt exist
-with open(gamescfg, 'r', newline='') as file:
-    reader = csv.reader(file)
-    header = next(reader, None) 
-    has_data = any(row for row in reader)
-    
-    if header and has_data:
-        greeter()
-    else:
-        addGame(cfg=cfg)
+if not os.path.exists('configs/games'):
+    addGame(cfg=cfg)
+else:
+    greeter()
         
 
