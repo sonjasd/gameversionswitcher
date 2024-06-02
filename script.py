@@ -1,6 +1,7 @@
 import csv
 import os
 import yaml
+import pandas as pd
 from time import sleep
 
 print("\nWelcome to Game Version Switcher")
@@ -10,21 +11,37 @@ cfg = "configs/config.yaml"
 
 def selectedGame(game):
     while True:
+        csvpath = f'configs/games/{game}/instances.csv'
         print("\nSelected game: " + game)
         print("\n[1] View instances [2] Create instance [3] Delete instance")
         selection = input("\n")
 
-        if not (selection == "1") or (selection == "2") or (selection == "3"):
+        if selection not in ["1", "2", "3"]:
             print("\nInvalid selection. Valid options: 1, 2, 3")
         else:
+            selection = int(selection)
             match selection:
                 case 1:
+                    # check if instances exist
+                    with open(csvpath, "r") as file:
+                        line_count = sum(1 for line in file)
+                    if line_count <= 1:
+                        print("\nNo instances found.")
+
+                    # else, read and print instances from csv file
+                    else:
+                        print("instances found")
+                        return
+                    
                     break
+
+                #create instance
                 case 2:
                     break
+
+                #delete instance
                 case 3:
                     break
-            break
 
 
 def addGame(cfg):
