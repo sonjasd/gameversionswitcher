@@ -3,8 +3,8 @@ import os
 import yaml
 from time import sleep
 
-def greeter():
-    return
+# config paths
+cfg = "configs/config.yaml"
 
 def addGame(cfg):
     with open(cfg, "r") as f:
@@ -31,8 +31,24 @@ def addGame(cfg):
             print("\nGame already added!")
             sleep(1)
 
-# config paths
-cfg = "configs/config.yaml"
+def greeter():
+    print("\nWelcome to Game Version Switcher")
+    printedLine = '\n[0] Add new game '
+    folderslist = os.listdir('configs/games')
+
+    amountGames = len(folderslist)
+
+    for game in range(0, amountGames):
+        printedLine += f'[{game+1}] {folderslist[game]} '
+    
+    print(printedLine)
+    selection = input('\n')
+    
+    if selection == "0":
+        addGame(cfg=cfg)
+    else:
+        print("selected here")
+
 
 #check for config
 if not os.path.exists(cfg):
@@ -50,7 +66,10 @@ if not os.path.exists(cfg):
 
 if not os.path.exists('configs/games'):
     addGame(cfg=cfg)
+    while True:
+        greeter()
 else:
-    greeter()
+    while True:
+        greeter()
         
 
