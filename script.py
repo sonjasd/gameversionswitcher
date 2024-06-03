@@ -1,6 +1,7 @@
 import csv
 import os
 import yaml
+import pandas as pd
 from pandas import *
 from time import sleep
 
@@ -30,8 +31,10 @@ def selectedGame(game):
 
                     # else, read and print instances from csv file
                     else:
-                        
-                        # reading CSV file
+
+
+                        # doesnt work
+
                         data = read_csv(csvpath)
                         instances = data['Name'].tolist()
 
@@ -46,6 +49,23 @@ def selectedGame(game):
 
                 #create instance
                 case 2:
+
+                    def count_lines(filename):
+                        df = pd.read_csv(filename)
+                        return len(df) + 1
+
+                    filename = csvpath
+                    line_count = count_lines(filename)
+
+                    id = line_count + 1
+
+                    instanceName = input("\nEnter a name for new instance: ")
+                    new_row = [str(id), instanceName, 'True']
+
+                    with open(csvpath, 'a', newline='') as file:
+                        writer = csv.writer(file)
+                        writer.writerow(new_row)
+                        
                     break
 
                 #delete instance
