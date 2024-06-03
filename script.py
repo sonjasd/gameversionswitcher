@@ -1,7 +1,7 @@
 import csv
 import os
 import yaml
-import pandas as pd
+from pandas import *
 from time import sleep
 
 print("\nWelcome to Game Version Switcher")
@@ -30,7 +30,16 @@ def selectedGame(game):
 
                     # else, read and print instances from csv file
                     else:
-                        print("instances found")
+                        
+                        # reading CSV file
+                        data = read_csv(csvpath)
+                        instances = data['Name'].tolist()
+
+                        printedString = 'Instances found'
+                        for instance in instances:
+                            printedString += f' : {instance}'
+
+                            
                         return
                     
                     break
